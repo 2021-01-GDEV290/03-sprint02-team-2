@@ -579,10 +579,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1384547269}
+  - component: {fileID: 1384547270}
   - component: {fileID: 1384547268}
   - component: {fileID: 1384547267}
   - component: {fileID: 1384547271}
-  - component: {fileID: 1384547270}
   - component: {fileID: 1384547272}
   m_Layer: 0
   m_Name: Player
@@ -690,9 +690,9 @@ MonoBehaviour:
   platformsLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  speed: 6.5
-  jumpVelocity: 7.5
-  animator: {fileID: 1384547267}
+  speed: 7
+  jumpVelocity: 7
+  playerHealth: 4
 --- !u!50 &1384547271
 Rigidbody2D:
   serializedVersion: 4

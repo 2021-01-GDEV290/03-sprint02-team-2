@@ -8,37 +8,57 @@ public class PlayerController : MonoBehaviour
 
     public float speed = 3f;
     public float jumpVelocity = 3f;
+    public int playerHealth = 4;
     
     private float velX;
     private float velY;
     private bool facingRight = true;
     private Rigidbody2D playerRigidbody;
     private BoxCollider2D playerBoxcollider;
-    public Animator animator;
+    private Animator animator;
     
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerBoxcollider = transform.GetComponent<BoxCollider2D>();
+        animator = this.GetComponent<Animator>();
     }
 
 
     void Update()
     {
-        velX = Input.GetAxisRaw("Horizontal");
+        velX = Input.GetAxis("Horizontal");
         velY = playerRigidbody.velocity.y;
         playerRigidbody.velocity = new Vector2(velX * speed, velY);
-        animator.SetFloat("Speed", Mathf.Abs(velX));
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        {
+            animator.SetFloat("Speed", 1);
+            animator.SetFloat("Jump", 0);
+            animator.SetFloat("Idle", 0);
+        }
+
+        else if (Input.GetKey(KeyCode.Space))
         {
             playerRigidbody.velocity = Vector2.up * jumpVelocity;
+            animator.SetFloat("Speed", 0);
+            animator.SetFloat("Jump", 1);
+            animator.SetFloat("Idle", 0);
+        }
+
+        else if(IsGrounded())
+        {
+            animator.SetFloat("Speed", 0);
+            animator.SetFloat("Jump", 0);
+            animator.SetFloat("Idle", 1);
+            animator.SetFloat("Crouch", 0);
         }
     }
 
     private bool IsGrounded()
     {
         RaycastHit2D raycastHit2d = Physics2D.BoxCast(playerBoxcollider.bounds.center, playerBoxcollider.bounds.size, 0f, Vector2.down, .1f, platformsLayerMask);
+        //animator.SetFloat("Jump", 0);
         return raycastHit2d.collider != null;
     }
 
@@ -46,12 +66,28 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.name.Equals("Platform"))
             this.transform.parent = collision.transform;
+        if (collision.gameObject.name.Equals("Goomb"))
+            Damage();
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.name.Equals("Platform"))
             this.transform.parent = null;
+    }
+
+    public void Damage()
+    {
+        playerHealth--;
+        if(playerHealth > 0)
+        {
+            animator.Play("Player Hurt");
+        }
+        else
+        {
+            animator.Play("Player Death");
+            Object.Destroy(gameObject, 1f);
+        }
     }
 
     void LateUpdate()
