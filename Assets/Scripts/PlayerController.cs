@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Speed", 0);
             animator.SetFloat("Jump", 0);
             animator.SetFloat("Idle", 1);
-            animator.SetFloat("Crouch", 0);
         }
     }
 
