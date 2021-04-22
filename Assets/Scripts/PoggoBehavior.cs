@@ -5,7 +5,7 @@ using UnityEngine;
 public class PoggoBehavior : MonoBehaviour
 {
     [Header("For Patrolling")]
-    [SerializeField] float moveSpeed;
+    public float moveSpeed = 1f;
     private float moveDirection = 1;
     private bool facingRight = true;
     [SerializeField] Transform groundCheckPoint;
@@ -22,12 +22,19 @@ public class PoggoBehavior : MonoBehaviour
     [SerializeField] Vector2 boxSize;
     private bool isGrounded;
 
+    [Header("For SeeingPlayer")]
+    [SerializeField] Vector2 lineOfSight;
+    [SerializeField] LayerMask playerLayer;
+    private bool canSeePlayer;
+
     [Header("Other")]
+    private Animator poggoAnimator;
     private Rigidbody2D poggoRB;
 
     void Start()
     {
         poggoRB = GetComponent<Rigidbody2D>();
+        poggoAnimator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -35,26 +42,29 @@ public class PoggoBehavior : MonoBehaviour
         checkingGround = Physics2D.OverlapCircle(groundCheckPoint.position, circleRadius, groundLayer);
         checkingWall = Physics2D.OverlapCircle(wallCheckPoint.position, circleRadius, groundLayer);
         isGrounded = Physics2D.OverlapBox(groundCheck.position, boxSize, 0, groundLayer);
-        //Patrolling();
-        if (Input.GetKeyDown(KeyCode.Q))
+        canSeePlayer = Physics2D.OverlapBox(transform.position, lineOfSight, 0, playerLayer);
+        AnimationController();
+        if (!canSeePlayer && isGrounded)
         {
-            JumpAttack();
+            Patrolling();
         }
+        
     }
 
     void Patrolling()
     {
-        if (!checkingGround || checkingWall)
+        if ((!checkingGround || checkingWall))
         {
             Flip();
         }
 
-        else if (!facingRight)
+        else if (!facingRight && checkingWall)
         {
             Flip();
         }
 
-        poggoRB.velocity = new Vector2(moveSpeed * moveDirection, poggoRB.velocity.y);
+        poggoRB.AddForce(new Vector2(moveSpeed * moveDirection, jumpHeight), ForceMode2D.Impulse);
+        //poggoRB.velocity = new Vector2(moveSpeed * moveDirection, poggoRB.velocity.y);
     }
 
     void JumpAttack()
@@ -67,11 +77,32 @@ public class PoggoBehavior : MonoBehaviour
         }
     }
 
+    void FlipTowardsPlayer()
+    {
+        float distanceFromPlayer = player.position.x - transform.position.x;
+
+        if (distanceFromPlayer < 0 && facingRight)
+        {
+            Flip();
+        }
+
+        else if(distanceFromPlayer>0 && !facingRight)
+        {
+            Flip();
+        }
+    }
+
     void Flip()
     {
         moveDirection *= -1;
         facingRight = !facingRight;
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    void AnimationController()
+    {
+        poggoAnimator.SetBool("canSeePlayer", canSeePlayer);
+        poggoAnimator.SetBool("isGrounded", isGrounded);
     }
 
     private void OnDrawGizmosSelected()
@@ -81,5 +112,7 @@ public class PoggoBehavior : MonoBehaviour
         Gizmos.DrawWireSphere(wallCheckPoint.position, circleRadius);
         Gizmos.color = Color.green;
         Gizmos.DrawCube(groundCheck.position, boxSize);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, lineOfSight);
     }
 }

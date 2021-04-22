@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour
             this.transform.parent = collision.transform;
         if (collision.gameObject.name.Equals("Goomb"))
             Damage();
+        if (collision.gameObject.name.Equals("Poggo"))
+            Damage();
     }
 
     void OnCollisionExit2D(Collision2D collision)

@@ -21,12 +21,4 @@ public class GoombBehavior : MonoBehaviour
             transform.position = new Vector2(transform.position.x -
                 goombSpeed * Time.deltaTime, transform.position.y);
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.transform.name ==("Player"))
-        {
-            collision.GetComponent<PlayerController>().Damage();
-        }
-    }
 }
