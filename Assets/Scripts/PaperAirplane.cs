@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class PaperAirplane : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float speed = 20f;
+    public int damage = 1;
+    public Rigidbody2D paperAirplaneRB;
+
     void Start()
     {
-        
+        paperAirplaneRB.velocity = transform.right * speed;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        
+        Enemy enemy = hitInfo.GetComponent<Enemy>();
+        if(enemy != null)
+        {
+            enemy.TakeDamage(damage);
+        }
+
+        Destroy(gameObject);
     }
 }

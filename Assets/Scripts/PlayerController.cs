@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 3f;
     public float jumpVelocity = 3f;
     public int playerHealth = 4;
+    public GameObject ThrowPoint;
     
     private float velX;
     private float velY;
@@ -101,9 +102,11 @@ public class PlayerController : MonoBehaviour
         {
             facingRight = false;
         }
+
         if(((facingRight) && (localScale.x<0))|| ((!facingRight) && (localScale.x > 0)))
         {
             localScale.x *= -1;
+            ThrowPoint.transform.Rotate(0f, 180f, 0f);
         }
 
         transform.localScale = localScale;
