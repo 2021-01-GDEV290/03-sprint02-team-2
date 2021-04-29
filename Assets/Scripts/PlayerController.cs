@@ -30,7 +30,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float invincibilityDurationSeconds;
     [SerializeField] private float invincibilityDeltaTime;
-    [SerializeField] private GameObject playerSprite;
+    [SerializeField] private float pickupInvincibilityDurationSeconds;
+    [SerializeField] private float pickupInvincibilityDeltaTime;
 
     void Start()
     {
@@ -140,11 +141,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TriggerInvincibility()
+    public void TriggerPickupInvincibility()
     {
         if (!isInvincible)
         {
-            StartCoroutine(Invinciblity());
+            StartCoroutine(PickupInvinciblity());
         }
     }
 
@@ -152,11 +153,25 @@ public class PlayerController : MonoBehaviour
     {
         isInvincible = true;
 
-        for(float i = 0; i<invincibilityDurationSeconds; i += invincibilityDeltaTime)
+        for (float i = 0; i<invincibilityDurationSeconds; i += invincibilityDeltaTime)
         {
             yield return new WaitForSeconds(invincibilityDeltaTime);
         }
         isInvincible = false;
+    }
+
+    private IEnumerator PickupInvinciblity()
+    {
+        isInvincible = true;
+
+        for (float i = 0; i < pickupInvincibilityDurationSeconds; i += pickupInvincibilityDeltaTime)
+        {
+            animator.SetFloat("Invincible", 1);
+            yield return new WaitForSeconds(pickupInvincibilityDeltaTime);
+        }
+
+        isInvincible = false;
+        animator.SetFloat("Invincible", 0);
     }
 
     void LateUpdate()

@@ -10,7 +10,7 @@ public class InvincibilityPickup : MonoBehaviour
 
         if (player != null)
         {
-            player.TriggerInvincibility();
+            player.TriggerPickupInvincibility();
             gameObject.SetActive(false);
         }
     }
