@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,8 +10,15 @@ public class PlayerController : MonoBehaviour
     public float speed = 3f;
     public float jumpVelocity = 3f;
     public int playerHealth = 4;
+    public int maxHealth = 4;
     public GameObject ThrowPoint;
-    
+
+    public Image heart;
+    public Sprite fullHeart;
+    public Sprite hitOneHeart;
+    public Sprite hitTwoHeart;
+    public Sprite hitThreeHeart;
+
     private float velX;
     private float velY;
     private bool facingRight = true;
@@ -53,6 +61,31 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Jump", 0);
             animator.SetFloat("Idle", 1);
         }
+
+        if (playerHealth == 4)
+        {
+            heart.sprite = fullHeart;
+        }
+
+        else if(playerHealth == 3)
+        {
+            heart.sprite = hitOneHeart;
+        }
+
+        else if (playerHealth == 2)
+        {
+            heart.sprite = hitTwoHeart;
+        }
+
+        else if (playerHealth == 1)
+        {
+            heart.sprite = hitThreeHeart;
+        }
+
+        else if(playerHealth == 0)
+        {
+            heart.enabled = false;
+        }
     }
 
     private bool IsGrounded()
@@ -76,6 +109,20 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.name.Equals("Platform"))
             this.transform.parent = null;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name.Equals("HealthPickup"))
+        {
+            
+        }
+    }
+
+    public void Heal(int amount)
+    {
+        playerHealth += amount;
+        playerHealth = Mathf.Clamp(playerHealth, 0, maxHealth);
     }
 
     public void Damage()
