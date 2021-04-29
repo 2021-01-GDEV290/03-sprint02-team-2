@@ -166,12 +166,9 @@ public class PlayerController : MonoBehaviour
 
         for (float i = 0; i < pickupInvincibilityDurationSeconds; i += pickupInvincibilityDeltaTime)
         {
-            animator.SetFloat("Invincible", 1);
             yield return new WaitForSeconds(pickupInvincibilityDeltaTime);
         }
-
         isInvincible = false;
-        animator.SetFloat("Invincible", 0);
     }
 
     void LateUpdate()
