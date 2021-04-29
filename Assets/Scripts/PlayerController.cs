@@ -25,7 +25,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D playerRigidbody;
     private BoxCollider2D playerBoxcollider;
     private Animator animator;
-    
+
+    private bool isInvincible = false;
+
+    [SerializeField] private float invincibilityDurationSeconds;
+    [SerializeField] private float invincibilityDeltaTime;
+    [SerializeField] private GameObject playerSprite;
+
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
@@ -111,14 +117,6 @@ public class PlayerController : MonoBehaviour
             this.transform.parent = null;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.name.Equals("HealthPickup"))
-        {
-            
-        }
-    }
-
     public void Heal(int amount)
     {
         playerHealth += amount;
@@ -127,16 +125,38 @@ public class PlayerController : MonoBehaviour
 
     public void Damage()
     {
+        if (isInvincible) return;
         playerHealth--;
+
         if(playerHealth > 0)
         {
             animator.Play("Player Hurt");
+            StartCoroutine(Invinciblity());
         }
         else
         {
             animator.Play("Player Death");
             Object.Destroy(gameObject, 1f);
         }
+    }
+
+    public void TriggerInvincibility()
+    {
+        if (!isInvincible)
+        {
+            StartCoroutine(Invinciblity());
+        }
+    }
+
+    private IEnumerator Invinciblity()
+    {
+        isInvincible = true;
+
+        for(float i = 0; i<invincibilityDurationSeconds; i += invincibilityDeltaTime)
+        {
+            yield return new WaitForSeconds(invincibilityDeltaTime);
+        }
+        isInvincible = false;
     }
 
     void LateUpdate()
