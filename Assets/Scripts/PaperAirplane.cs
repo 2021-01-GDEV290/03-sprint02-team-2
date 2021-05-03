@@ -15,10 +15,17 @@ public class PaperAirplane : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        Enemy enemy = hitInfo.GetComponent<Enemy>();
-        if(enemy != null)
+        PoggoBehavior poggo = hitInfo.GetComponent<PoggoBehavior>();
+        GoombBehavior goomb = hitInfo.GetComponent<GoombBehavior>();
+
+        if(poggo != null)
         {
-            enemy.TakeDamage(damage);
+            poggo.TakeDamage(damage);
+        }
+
+        if(goomb != null)
+        {
+            goomb.TakeDamage(damage);
         }
 
         Destroy(gameObject);

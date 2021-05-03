@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private LayerMask platformsLayerMask;
+    [SerializeField] LayerMask groundLayer;
 
     public float speed = 3f;
     public float jumpVelocity = 3f;
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Idle", 0);
         }
 
-        else if (Input.GetKey(KeyCode.Space))
+        else if (Input.GetKey(KeyCode.Space) && IsGrounded())
         {
             playerRigidbody.velocity = Vector2.up * jumpVelocity;
             animator.SetFloat("Speed", 0);
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Idle", 0);
         }
 
-        else if(IsGrounded())
+        else if (IsGrounded())
         {
             animator.SetFloat("Speed", 0);
             animator.SetFloat("Jump", 0);
@@ -95,17 +95,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
-        RaycastHit2D raycastHit2d = Physics2D.BoxCast(playerBoxcollider.bounds.center, playerBoxcollider.bounds.size, 0f, Vector2.down, .1f, platformsLayerMask);
-        //animator.SetFloat("Jump", 0);
+        RaycastHit2D raycastHit2d = Physics2D.BoxCast(playerBoxcollider.bounds.center, playerBoxcollider.bounds.size, 0f, Vector2.down, .1f, groundLayer);
         return raycastHit2d.collider != null;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.name.Equals("Platform"))
+        {
             this.transform.parent = collision.transform;
+        }
         if (collision.gameObject.name.Equals("Goomb"))
             Damage();
         if (collision.gameObject.name.Equals("Poggo"))
@@ -146,6 +147,7 @@ public class PlayerController : MonoBehaviour
         if (!isInvincible)
         {
             StartCoroutine(PickupInvinciblity());
+            
         }
     }
 
@@ -173,7 +175,7 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector3 localScale = transform.localScale;
+        Vector2 localScale = transform.localScale;
         if (velX > 0)
         {
             facingRight = true;

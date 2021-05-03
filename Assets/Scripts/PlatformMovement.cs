@@ -4,21 +4,33 @@ using UnityEngine;
 
 public class PlatformMovement : MonoBehaviour
 {
-    float directionHorizontal, platSpeed = 3f;
-    bool moveRight = true;
+    public Transform pos1, pos2;
+    public float speed;
+    public Transform startPos;
+
+    Vector3 nextPos;
+    void Start()
+    {
+        nextPos = startPos.position;
+    }
 
     void Update()
     {
-        if (transform.position.x > 4f)
-            moveRight = false;
-        if (transform.position.x < -4f)
-            moveRight = true;
+        if(transform.position == pos1.position)
+        {
+            nextPos = pos2.position;
+        }
 
-        if (moveRight)
-            transform.position = new Vector2(transform.position.x +
-                platSpeed * Time.deltaTime, transform.position.y);
-        else
-            transform.position = new Vector2(transform.position.x -
-                platSpeed * Time.deltaTime, transform.position.y);
+        if(transform.position == pos2.position)
+        {
+            nextPos = pos1.position;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, nextPos, speed * Time.deltaTime);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(pos1.position, pos2.position);
     }
 }

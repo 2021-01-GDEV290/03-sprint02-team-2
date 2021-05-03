@@ -71,7 +71,6 @@ GameObject:
   - component: {fileID: 419081942459611123}
   - component: {fileID: 419081942459611122}
   - component: {fileID: 419081942459611125}
-  - component: {fileID: 419081942459611135}
   - component: {fileID: 419081942459611134}
   - component: {fileID: 419081942459611121}
   - component: {fileID: 419081942459611120}
@@ -169,19 +168,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &419081942459611135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 419081942459611124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 402d624ef4ff54b42874734cd7d0a7d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 2
 --- !u!114 &419081942459611134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41bedf6a2b149fd42b0f2d8db2ea1e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 2
   moveSpeed: 0.5
   groundCheckPoint: {fileID: 419081942285782806}
   wallCheckPoint: {fileID: 419081942616346592}

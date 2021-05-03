@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PoggoBehavior : MonoBehaviour
 {
+    public int health = 1;
+
     [Header("For Patrolling")]
     public float moveSpeed = 1f;
     private float moveDirection = 1;
@@ -16,7 +18,7 @@ public class PoggoBehavior : MonoBehaviour
     private bool checkingWall;
 
     [Header("For JumpingAttack")]
-    [SerializeField] float jumpHeight;
+    [SerializeField] int jumpHeight;
     [SerializeField] Transform player;
     [SerializeField] Transform groundCheck;
     [SerializeField] Vector2 boxSize;
@@ -51,6 +53,17 @@ public class PoggoBehavior : MonoBehaviour
         
     }
 
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            poggoAnimator.Play("Poggo_Death");
+            Object.Destroy(gameObject, 1f);
+        }
+    }
+
     void Patrolling()
     {
         if ((!checkingGround || checkingWall))
@@ -64,7 +77,6 @@ public class PoggoBehavior : MonoBehaviour
         }
 
         poggoRB.AddForce(new Vector2(moveSpeed * moveDirection, jumpHeight), ForceMode2D.Impulse);
-        //poggoRB.velocity = new Vector2(moveSpeed * moveDirection, poggoRB.velocity.y);
     }
 
     void JumpAttack()

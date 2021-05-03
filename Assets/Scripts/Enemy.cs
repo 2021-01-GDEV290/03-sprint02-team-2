@@ -12,12 +12,7 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0)
         {
-            Die();
-        }
-
-        void Die()
-        {
-            Object.Destroy(gameObject,1f);
+            Object.Destroy(gameObject, 1f);
         }
     }
 }
