@@ -5,6 +5,7 @@ using UnityEngine;
 public class PoggoBehavior : MonoBehaviour
 {
     public int health = 1;
+    public GameObject poggo;
 
     [Header("For Patrolling")]
     public float moveSpeed = 1f;
@@ -51,6 +52,14 @@ public class PoggoBehavior : MonoBehaviour
             Patrolling();
         }
         
+    }
+
+    void Update()
+    {
+        if (poggo.transform.position.y < -2)
+        {
+            Object.Destroy(gameObject);
+        }
     }
 
     public void TakeDamage(int damage)

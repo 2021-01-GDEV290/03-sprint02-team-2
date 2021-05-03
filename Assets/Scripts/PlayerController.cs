@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public int playerHealth = 4;
     public int maxHealth = 4;
     public GameObject ThrowPoint;
+    public GameObject player;
 
     public Image heart;
     public Sprite fullHeart;
@@ -92,6 +93,12 @@ public class PlayerController : MonoBehaviour
         else if(playerHealth == 0)
         {
             heart.enabled = false;
+        }
+
+        if (player.transform.position.y < -2)
+        {
+            animator.Play("Player Death");
+            Object.Destroy(gameObject, 1f);
         }
     }
 
