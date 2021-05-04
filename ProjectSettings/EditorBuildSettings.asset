@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Title_Screen.unity
+    guid: fbff8349af48d574685026df80607d08
+  - enabled: 1
+    path: Assets/Scenes/Crumpled_Level_1.unity
+    guid: 55a6dfd10c86a6e4a891987d07e0ddb5
+  - enabled: 1
+    path: Assets/Scenes/Crumpled_Level_2.unity
+    guid: ce3a028864348184183ce87352c5a75a
+  - enabled: 1
+    path: Assets/Scenes/Credit_End_Screen.unity
+    guid: ebfc033d59c2ba149b89474111e4983f
   m_configObjects: {}
