@@ -4057,7 +4057,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1050073062191753762, guid: e811aa77895c00140b1d7d922e5691b9, type: 3}
       propertyPath: sceneToLoad
-      value: Crumpled_Level_1
+      value: Credit_End_Screen
       objectReference: {fileID: 0}
     - target: {fileID: 3590808926786350266, guid: e811aa77895c00140b1d7d922e5691b9, type: 3}
       propertyPath: m_RootOrder
